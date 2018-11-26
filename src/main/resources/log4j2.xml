@@ -2,7 +2,8 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
         </Console>
     </Appenders>
     <Loggers>
@@ -11,7 +12,6 @@
         </Root>
     </Loggers>
 </Configuration>
-
 
 
 <!--<?xml version="1.0" encoding="UTF-8"?>-->
