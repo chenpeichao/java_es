@@ -41,6 +41,8 @@ public class CRUDOperate {
         crudOperate.getEmployee(client);        // 获取指定id的员工信息
         crudOperate.updateEmployee(client);        // 修改指定id的员工信息
         crudOperate.deleteEmployee(client);        // 删除指定id的员工信息
+
+        client.close();
     }
 
     /**

@@ -17,6 +17,18 @@ public class Employee {
     private String joinDate;
     private Long salary;
 
+    public Employee() {
+    }
+
+    public Employee(String name, Integer age, String position, String country, String joinDate, Long salary) {
+        this.name = name;
+        this.age = age;
+        this.position = position;
+        this.country = country;
+        this.joinDate = joinDate;
+        this.salary = salary;
+    }
+
     public String getName() {
         return name;
     }
