@@ -50,7 +50,8 @@ public class SearchOperate {
     private void searchEmployee(TransportClient client) {
         try {
             SearchHits company = client.prepareSearch("company")
-                    .setQuery(QueryBuilders.wildcardQuery("position", "*f t*"))
+                    .setQuery(QueryBuilders.wildcardQuery("position", "*t*"))
+                    .setQuery(QueryBuilders.rangeQuery("age").from(35, true).to(45, true))
                     .setFrom(0)
                     .setSize(1000)
                     .get()
@@ -59,7 +60,8 @@ public class SearchOperate {
 
             SearchHit[] companyHits = company.getHits();
             for (SearchHit searchHitFields : companyHits) {
-                System.out.println(searchHitFields.getSourceAsString());
+                System.out.print("µÃ·ÖÎª£º" + searchHitFields.getScore());
+                System.out.println("===" + searchHitFields.getSourceAsString());
             }
         } catch (Exception e) {
             e.printStackTrace();
