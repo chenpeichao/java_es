@@ -7,9 +7,14 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 查询练习
@@ -27,20 +32,45 @@ public class SearchOperate {
 
         SearchOperate searchOperate = new SearchOperate();
         // 准备数据
-        searchOperate.preCreateDate(client, new Employee("1", "jack", 27, "technique software", "china", "2017-01-01", 10000l));
-        searchOperate.preCreateDate(client, new Employee("2", "marry", 35, "technique manager", "china", "2017-01-01", 12000l));
-        searchOperate.preCreateDate(client, new Employee("3", "tom", 32, "senior technique software", "china", "2016-01-01", 11000l));
-        searchOperate.preCreateDate(client, new Employee("4", "jen", 25, "junior finance", "usa", "2016-01-01", 7000l));
-        searchOperate.preCreateDate(client, new Employee("5", "mike", 37, "finance manager", "usa", "2015-01-01", 15000l));
+//        searchOperate.preCreateDate(client, new Employee("1", "jack", 27, "technique software", "china", "2017-01-01", 10000l));
+//        searchOperate.preCreateDate(client, new Employee("2", "marry", 35, "technique manager", "china", "2017-01-01", 12000l));
+//        searchOperate.preCreateDate(client, new Employee("3", "tom", 32, "senior technique software", "china", "2016-01-01", 11000l));
+//        searchOperate.preCreateDate(client, new Employee("4", "jen", 25, "junior finance", "usa", "2016-01-01", 7000l));
+//        searchOperate.preCreateDate(client, new Employee("5", "mike", 37, "finance manager", "usa", "2015-01-01", 15000l));
 
+        // 根据指定条件查询数据
+        searchOperate.searchEmployee(client);
         client.close();
+    }
+
+    /**
+     * 查询指定条件下的数据
+     * @param client
+     */
+    private void searchEmployee(TransportClient client) {
+        try {
+            SearchHits company = client.prepareSearch("company")
+                    .setQuery(QueryBuilders.wildcardQuery("position", "*f t*"))
+                    .setFrom(0)
+                    .setSize(1000)
+                    .get()
+                    .getHits();
+            System.out.println("查询总记录数为：" + company.getTotalHits());
+
+            SearchHit[] companyHits = company.getHits();
+            for (SearchHit searchHitFields : companyHits) {
+                System.out.println(searchHitFields.getSourceAsString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * 构造数据
      *
-     * @param client
-     * @param employee
+     * @param client        es连接实体
+     * @param employee      数据实体对象
      */
     private void preCreateDate(TransportClient client, Employee employee) {
         System.out.println(JSONObject.toJSONString(employee));
