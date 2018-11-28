@@ -37,8 +37,9 @@ public class AggrOperate {
                 .addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("localhost", 9300)));
 
         AggrOperate aggrOperate = new AggrOperate();
-//        aggrOperate.doAggrAccess(transportClient);
+        aggrOperate.doAggrAccess(transportClient);
 
+        System.out.println("---------------------------------------");
 
         aggrOperate.doAggrAccessTeacher(transportClient);
 
@@ -58,7 +59,7 @@ public class AggrOperate {
                                 .field("joinDate")
                                 .dateHistogramInterval(DateHistogramInterval.YEAR)
                                 .subAggregation(AggregationBuilders.avg("avg_salary").field("salary"))
-                )).execute().actionGet();
+                )).get();
 
         Terms terms = searchResponse.getAggregations().get("group_by_country");
         for (Terms.Bucket bucket : terms.getBuckets()) {
