@@ -1,7 +1,6 @@
 package org.pcchen.es_core_first;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * Ô±¹¤bean
@@ -10,6 +9,8 @@ import java.util.Date;
  * @create 2018-11-26 16:05
  **/
 public class Employee {
+    @JSONField(serialize = false)
+    private String id;
     private String name;
     private Integer age;
     private String position;
@@ -20,13 +21,22 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, Integer age, String position, String country, String joinDate, Long salary) {
+    public Employee(String id, String name, Integer age, String position, String country, String joinDate, Long salary) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.position = position;
         this.country = country;
         this.joinDate = joinDate;
         this.salary = salary;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -84,6 +94,7 @@ public class Employee {
 
         Employee employee = (Employee) o;
 
+        if (id != null ? !id.equals(employee.id) : employee.id != null) return false;
         if (name != null ? !name.equals(employee.name) : employee.name != null) return false;
         if (age != null ? !age.equals(employee.age) : employee.age != null) return false;
         if (position != null ? !position.equals(employee.position) : employee.position != null) return false;
@@ -95,7 +106,8 @@ public class Employee {
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
         result = 31 * result + (position != null ? position.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
@@ -107,11 +119,12 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
                 ", position='" + position + '\'' +
                 ", country='" + country + '\'' +
-                ", joinDate=" + joinDate +
+                ", joinDate='" + joinDate + '\'' +
                 ", salary=" + salary +
                 '}';
     }

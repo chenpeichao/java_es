@@ -27,13 +27,11 @@ public class SearchOperate {
 
         SearchOperate searchOperate = new SearchOperate();
         // 准备数据
-        Employee employee1 = new Employee("jack", 27, "technique software", "china", "2017-01-01", 10000l);
-        Employee employee2 = new Employee("jack", 27, "technique software", "china", "2017-01-01", 10000l);
-        Employee employee3 = new Employee("jack", 27, "technique software", "china", "2017-01-01", 10000l);
-
-        // 导入数据
-//        searchOperate.preCreateDate(client, employee1, employee2, employee3);
-        searchOperate.preCreateDate(client, employee1);
+        searchOperate.preCreateDate(client, new Employee("1", "jack", 27, "technique software", "china", "2017-01-01", 10000l));
+        searchOperate.preCreateDate(client, new Employee("2", "marry", 35, "technique manager", "china", "2017-01-01", 12000l));
+        searchOperate.preCreateDate(client, new Employee("3", "tom", 32, "senior technique software", "china", "2016-01-01", 11000l));
+        searchOperate.preCreateDate(client, new Employee("4", "jen", 25, "junior finance", "usa", "2016-01-01", 7000l));
+        searchOperate.preCreateDate(client, new Employee("5", "mike", 37, "finance manager", "usa", "2015-01-01", 15000l));
 
         client.close();
     }
@@ -47,7 +45,7 @@ public class SearchOperate {
     private void preCreateDate(TransportClient client, Employee employee) {
         System.out.println(JSONObject.toJSONString(employee));
         //一次只能插入一个jsonObject，不能插入jsonArry
-        IndexResponse response = client.prepareIndex("company", "employee").setId("1")
+        IndexResponse response = client.prepareIndex("company", "employee").setId(employee.getId())
                 .setSource(JSONObject.toJSONString(employee)).get();
 
         logger.info("插入数据返回结果为：" + response.getResult());
