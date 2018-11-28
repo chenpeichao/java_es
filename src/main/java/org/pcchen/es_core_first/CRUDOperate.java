@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * elasticsearchµÄÁ¬½ÓÒÔ¼°ÔöÉ¾¸Ä²é²Ù×÷
+ * elasticsearchçš„è¿æ¥ä»¥åŠå¢åˆ æ”¹æŸ¥æ“ä½œ
  *
  * @author cpc
  * @create 2018-11-26 15:15
@@ -35,18 +35,18 @@ public class CRUDOperate {
 
         TransportClient client = new PreBuiltTransportClient(settings)
                 .addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("localhost", 9300)));
-        logger.info("clientĞÅÏ¢Îª:" + client);
+        logger.info("clientä¿¡æ¯ä¸º:" + client);
 
         CRUDOperate crudOperate = new CRUDOperate();
-        crudOperate.getEmployee(client);        // »ñÈ¡Ö¸¶¨idµÄÔ±¹¤ĞÅÏ¢
-        crudOperate.updateEmployee(client);        // ĞŞ¸ÄÖ¸¶¨idµÄÔ±¹¤ĞÅÏ¢
-        crudOperate.deleteEmployee(client);        // É¾³ıÖ¸¶¨idµÄÔ±¹¤ĞÅÏ¢
+        crudOperate.getEmployee(client);        // è·å–æŒ‡å®šidçš„å‘˜å·¥ä¿¡æ¯
+        crudOperate.updateEmployee(client);        // ä¿®æ”¹æŒ‡å®šidçš„å‘˜å·¥ä¿¡æ¯
+        crudOperate.deleteEmployee(client);        // åˆ é™¤æŒ‡å®šidçš„å‘˜å·¥ä¿¡æ¯
 
         client.close();
     }
 
     /**
-     * ´´½¨Ë÷Òı²¢ÇÒÏòË÷ÒıÌí¼ÓÒ»ÌõÊı¾İ
+     * åˆ›å»ºç´¢å¼•å¹¶ä¸”å‘ç´¢å¼•æ·»åŠ ä¸€æ¡æ•°æ®
      *
      * @param client
      * @throws IOException
@@ -65,52 +65,52 @@ public class CRUDOperate {
         IndexResponse response = client.prepareIndex("company", "employee").setId("1")
                 .setSource(JSONObject.toJSONString(employee))
                 .get();
-        logger.info("´´½¨Ô±¹¤³É¹¦·µ»ØĞÅÏ¢·µ»ØÎª£º" + response.getResult());
+        logger.info("åˆ›å»ºå‘˜å·¥æˆåŠŸè¿”å›ä¿¡æ¯è¿”å›ä¸ºï¼š" + response.getResult());
     }
 
     /**
-     * ¸ù¾İid»ñÈ¡Ô±¹¤ĞÅÏ¢
+     * æ ¹æ®idè·å–å‘˜å·¥ä¿¡æ¯
      *
      * @param client
      */
     private void getEmployee(TransportClient client) {
         GetResponse response = client.prepareGet("company", "employee", "2").get();
-        logger.info("²éÑ¯Ö¸¶¨idÏÂµÄÔ±¹¤ĞÅÏ¢·µ»ØÎª£º" + response.getSourceAsString());
+        logger.info("æŸ¥è¯¢æŒ‡å®šidä¸‹çš„å‘˜å·¥ä¿¡æ¯è¿”å›ä¸ºï¼š" + response.getSourceAsString());
     }
 
     /**
-     * ¸ù¾İÖ¸¶¨idĞŞ¸ÄË÷ÒıÊı¾İ
+     * æ ¹æ®æŒ‡å®šidä¿®æ”¹ç´¢å¼•æ•°æ®
      *
      * @param client
      */
     private void updateEmployee(TransportClient client) {
-        //µÚÒ»ÖÖĞŞ¸Ä
+        //ç¬¬ä¸€ç§ä¿®æ”¹
 //        UpdateResponse response = client.prepareUpdate("company", "employee", "2").setDoc("name", "jack").get();
-        //µÚ¶şÖÖĞŞ¸Ä
+        //ç¬¬äºŒç§ä¿®æ”¹
         Map<String, String> tmpMap = new HashMap<String, String>();
         tmpMap.put("name", "jackabcefg");
         UpdateResponse response = client.prepareUpdate("company", "employee", "2")
                 .setDoc(JSONObject.toJSONString(tmpMap))
-//                .setDoc(tmpMap)       //Ò²¿ÉÒÔ
+//                .setDoc(tmpMap)       //ä¹Ÿå¯ä»¥
                 .get();
-        logger.info("ĞŞ¸ÄÖ¸¶¨idÏÂµÄÔ±¹¤ĞÅÏ¢·µ»ØÎª£º" + response.getResult());
+        logger.info("ä¿®æ”¹æŒ‡å®šidä¸‹çš„å‘˜å·¥ä¿¡æ¯è¿”å›ä¸ºï¼š" + response.getResult());
     }
 
     /**
-     * É¾³ıÖ¸¶¨idµÄÔ±¹¤
+     * åˆ é™¤æŒ‡å®šidçš„å‘˜å·¥
      *
      * @param client
      */
     private void deleteEmployee(TransportClient client) {
         DeleteResponse deleteResponse = client.prepareDelete("company", "employee", "1").get();
-        logger.info("É¾³ıÖ¸¶¨idÏÂµÄÔ±¹¤ĞÅÏ¢·µ»ØÎª£º" + deleteResponse.getResult());
+        logger.info("åˆ é™¤æŒ‡å®šidä¸‹çš„å‘˜å·¥ä¿¡æ¯è¿”å›ä¸ºï¼š" + deleteResponse.getResult());
     }
 
     //---------------------------------------------teacher code------------------------------------------------------------------------------
 
     /**
-     * ÀÏÊ¦±Ê¼Ç
-     * ´´½¨Ô±¹¤ĞÅÏ¢£¨´´½¨Ò»¸ödocument£©
+     * è€å¸ˆç¬”è®°
+     * åˆ›å»ºå‘˜å·¥ä¿¡æ¯ï¼ˆåˆ›å»ºä¸€ä¸ªdocumentï¼‰
      *
      * @param client
      */

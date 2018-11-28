@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 聚合相关测试
+ * 鑱氬悎鐩稿叧娴嬭瘯
  *
  * @author cpc
  * @create 2018-11-28 10:45
@@ -45,7 +45,7 @@ public class AggrOperate {
     }
 
     /**
-     * 聚合操作示例---myself
+     * 鑱氬悎鎿嶄綔绀轰緥---myself
      *
      * @param transportClient
      */
@@ -77,7 +77,7 @@ public class AggrOperate {
     }
 
     /**
-     * 聚合操作示例---teacher
+     * 鑱氬悎鎿嶄綔绀轰緥---teacher
      *
      * @param client
      */

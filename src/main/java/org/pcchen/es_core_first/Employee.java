@@ -3,7 +3,7 @@ package org.pcchen.es_core_first;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- * Ô±¹¤bean
+ * é›‡å‘˜bean
  *
  * @author cpc
  * @create 2018-11-26 16:05
